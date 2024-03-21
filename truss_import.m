@@ -1,18 +1,18 @@
-% truss matrix setup
+%% truss matrix setup
 
-%% connection matrix is 1 if there is a connection at that joint
+% connection matrix is 1 if there is a connection at that joint
 % rows are joints
 % cols are members
-C = [1 1 1 1 1 0 0;
-     1 1 1 0 1 1 0;
-     0 0 0 1 0 0 0;
-     0 0 0 0 0 0 1;
+C = [1 1 0 0 0 0 0;
+     1 0 1 0 1 1 0;
+     0 1 1 1 0 0 0;
+     0 0 0 1 1 0 1;
      0 0 0 0 0 1 1];
 
 % cols sum to 2 (down)
 % rows sum to number of members attached to a joint (across)
 
-%% support matrices (only 3 ones total for 3 unknown support rxns)
+% support matrices (only 3 ones total for 3 unknown support rxns)
 %  Sx1, Sy1, Sy2
 Sx = [1 0 0;
       0 0 0;
@@ -26,22 +26,60 @@ Sy = [0 1 0;
       0 0 0;
       0 0 1];
 
-%% joint coords
+% joint coords
 % 
 X = [0; 1; 2; 3; 4];
 Y = [0; 1; 0; 30; 0];
 
-%% load vector
-% create an empty load vector ( 5 is j)
-L = zeros(2*5, 1); 
+% load vector
+my_load = 15; %%%%%%%%%%%%%%%%%change
+% create an empty load vector ( size(C,1) is j)
+L = zeros(2*size(C,1), 1); 
 
-% Only one load at joint 8
-% j+x --> x is the y joint: so joint 3 in y direction you put the load at L(8)
-L(8) = 15;  % 15 lb at joint 3
+% Only one live load at joint 7
+% j+x --> x is the y joint: so joint 2 in y direction you put the load at L(7)
+L(7) = my_load;  % my_load oz at joint 2 !!!!!!!!!!!!!!!change joint 
 
-
-%% check cost and member/joint reqs
-[totalCost, totalLength] = checkCostAndMembers(C, X, Y);
+%% calculations
 
 % generate eq eqns
 [A, L] = eq_eqns(C, Sx, Sy, X, Y, L);
+
+% solve for member forces and the 3 reaction forces
+% T is in this format: [ T_1-m, S_x1, S_y2, S_y2 ]
+T = A \ L; 
+
+% check cost and member/joint reqs
+[totalCost, totalLength] = checkCostAndMembers(C, X, Y);
+
+% Rm
+Rm = T / my_load;
+
+% find pcrit, wfailure, then critical member
+
+
+
+%% printing 
+
+fprintf('\nLoad: %.2f oz\n', my_load);
+fprintf('Member forces in oz\n');
+for i = 1:size(C,2)
+    if T(i) < 0
+        fprintf('m%d: %.3f (C)\n', i, abs(T(i))); % we in compression
+    else
+        fprintf('m%d: %.3f (T)\n', i, T(i)); % we in tension
+    end
+end
+
+
+fprintf('Reaction forces in oz:\n');
+fprintf('Sx1: %.2f\n', T(size(C,2)+1));
+fprintf('Sy1: %.2f\n', T(size(C,2)+2));
+fprintf('Sy2: %.2f\n', T(size(C,2)+3));
+
+
+fprintf('Cost of truss: $%0.2f\n', totalCost);
+fprintf('Theoretical max load/cost ratio in oz/$: %.4f\n', 1); %calculate
+
+
+

@@ -37,4 +37,7 @@ function [totalCost, totalLength] = checkCostAndMembers(C, X, Y)
         fprintf('members within range: %d <= %d\n', size(C,2), 2 * size(C,1) - 3);
     end
 
+    
+
+
 end

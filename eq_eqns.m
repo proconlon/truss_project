@@ -30,16 +30,16 @@ function [A, L] = eq_eqns(C, Sx, Sy, X, Y, L)
         
         % only 1 sx support rxn below, add it to A matrix
         if Sx(joint)
-            A(joint, numMembers+1) = 1; % adds to numMembers+1 col since thats where Sx goes
+            A(joint, numMembers+1) = 1; % adds to numMembers+1 col since thats where Sx goes in x component of A
         end
 
-        % there are 2 Sy support rxns added to last 2 cols, 
-        for k = 1:2
+        % there are 2 Sy support rxns added to last 2 cols
+        for k = 1:3
             if Sy(joint, k) == 1
-                A(joint+numJoints, numMembers+1+k) = 1;  % adds needed 1 where its supposed to be
+                A(joint+numJoints, numMembers+k) = 1;  % adds needed 1 where its supposed to be in y component of A
             end
         end
 
     end
-    disp('equilibrium equations constructed ');
+
 end
