@@ -59,14 +59,16 @@ Rm_membersOnly = Rm(1:size(C,2)); % no reaction forces in Rm
 [Pcrits] = pcritCalc(memberLengths);
 
 % critical member and max theoretical load
-[critical_member, W_failure_min] = buckme(Pcrits, Rm_membersOnly);
+[critical_member, W_failure_min] = buckme(Pcrits, Rm_membersOnly, memberLengths);
 
 %% printing 
-
-fprintf('\nLoad: %.2f oz\n', my_load);
+fprintf('EK301, Section A2, Group 2: Kailan Pan, James Conlon, Austin Zhang 4/5/2024');
+fprintf('\nLoad: %.3f oz\n', my_load);
 fprintf('Member forces in oz\n');
 for i = 1:size(C,2)
-    if T(i) < 0
+    if T(i) == 0
+        fprintf('m%d: %.3f (0 force member)\n', i, abs(T(i)));
+    elseif T(i) < 0
         fprintf('m%d: %.3f (C)\n', i, abs(T(i))); % we in compression
     else
         fprintf('m%d: %.3f (T)\n', i, T(i)); % we in tension

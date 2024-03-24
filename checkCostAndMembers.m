@@ -22,13 +22,6 @@ function [totalCost, totalLength, memberLengths] = checkCostAndMembers(C, X, Y)
     % total cost
     totalCost = 10 * numJoints + totalLength;
 
-    % print if the cost is ok
-    if totalCost > 300
-        fprintf('cost exceeds the limit: $%0.2f > $300\n', totalCost);
-    else
-        fprintf('cost is within the limit: $%0.2f <= $300\n', totalCost);
-    end
-
     % check member/joint ratio
     % M = 2J - 3
     if size(C,2) > 2 * size(C,1) - 3
