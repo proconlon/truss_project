@@ -40,7 +40,7 @@ X = [0; 0; 4; 4; 8; 8; 12; 12];
 Y = [0; 4; 8; 4; 8; 4; 4; 0];
 
 % load vector
-my_load = 15; % arbitrary
+my_load = 25; % arbitrary
 % create an empty load vector ( size(C,1) is j)
 L = zeros(2*size(C,1), 1); 
 
@@ -54,7 +54,7 @@ L(size(C,1)+4) = my_load;  % my_load oz at joint 2 !!!!!!!!!!!!!!!change as need
 [A, L] = eq_eqns(C, Sx, Sy, X, Y, L);
 
 % solve for member forces and the 3 reaction forces
-% T is in this format: [ T_1-m, S_x1, S_y2, S_y2 ]
+% T is in this format: [ T_1-m, S_x1, S_y2, S_y2 ] (all internal forces)
 T = A \ L; 
 
 % check cost and member/joint reqs
@@ -94,5 +94,3 @@ fprintf('Sy2: %.2f\n', T(size(C,2)+3));
 fprintf('Cost of truss: $%0.2f\n', totalCost);
 load_to_cost = abs(W_failure_min) / totalCost;
 fprintf('Theoretical max load/cost ratio in oz/$: %.4f\n', load_to_cost);
-
-

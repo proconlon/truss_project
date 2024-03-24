@@ -5,11 +5,10 @@ function [critical_member, W_failure_min] = buckme(Pcrit, Rm, memberLens)
     % W_failure for each member
     Wfailure = -Pcrit ./ Rm;
     
-    % ignore 0 force members (or really small force members) by setting value to inf
-    Wfailure(abs(Rm) < 1e-6) = Inf;
-
+    % ignore 0 force members (or positive ie tension) by setting value to inf
+    Wfailure(Rm >=0) = Inf;
     % [min Wfailure value, index] of the critical member
     [W_failure_min, critical_member] = min(Wfailure);
     
-    fprintf('m%d with length %.3fin will buckle at:\nforce: %.2f oz +/-1.36 oz\n', critical_member, memberLens(critical_member), W_failure_min);
+    fprintf('m%d with length %.3fin will buckle at\nforce: %.2f oz +/-1.36 oz\n', critical_member, memberLens(critical_member), W_failure_min);
 end
