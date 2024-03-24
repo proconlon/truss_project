@@ -34,7 +34,7 @@ function [A, L] = eq_eqns(C, Sx, Sy, X, Y, L)
         end
 
         % there are 2 Sy support rxns added to last 2 cols
-        for k = 1:3
+        for k = 1:size(Sy, 2)
             if Sy(joint, k) == 1
                 A(joint+numJoints, numMembers+k) = 1;  % adds needed 1 where its supposed to be in y component of A
             end

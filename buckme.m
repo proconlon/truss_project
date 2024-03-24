@@ -5,6 +5,9 @@ function [critical_member, W_failure_min] = buckme(Pcrit, Rm, memberLens)
     % W_failure for each member
     Wfailure = -Pcrit ./ Rm;
     
+    % ignore 0 force members (or really small force members) by setting value to inf
+    Wfailure(abs(Rm) < 1e-6) = Inf;
+
     % [min Wfailure value, index] of the critical member
     [W_failure_min, critical_member] = min(Wfailure);
     

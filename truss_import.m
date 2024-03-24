@@ -3,11 +3,14 @@
 % connection matrix is 1 if there is a connection at that joint
 % rows are joints
 % cols are members
-C = [1 1 0 0 0 0 0;
-     1 0 1 0 1 1 0;
-     0 1 1 1 0 0 0;
-     0 0 0 1 1 0 1;
-     0 0 0 0 0 1 1];
+C = [1 1 0 0 0 0 0 0 0 0 0 0 0;
+     1 0 1 1 0 0 0 0 0 0 0 0 0;
+     0 0 0 1 1 1 0 0 0 0 0 0 0;
+     0 1 1 0 1 0 1 1 0 0 0 0 0;
+     0 0 0 0 0 1 1 0 1 1 0 0 0;
+     0 0 0 0 0 0 0 1 1 0 1 1 0;
+     0 0 0 0 0 0 0 0 0 1 1 0 1;
+     0 0 0 0 0 0 0 0 0 0 0 1 1];
 
 % cols sum to 2 (down)
 % rows sum to number of members attached to a joint (across)
@@ -18,17 +21,23 @@ Sx = [1 0 0;
       0 0 0;
       0 0 0;
       0 0 0;
+      0 0 0;
+      0 0 0;
+      0 0 0;
       0 0 0];
 
 Sy = [0 1 0; 
       0 0 0; 
       0 0 0;
       0 0 0;
+      0 0 0;
+      0 0 0;
+      0 0 0;
       0 0 1];
 
 % joint coords
-X = [0; 1; 2; 3; 4];
-Y = [0; 1; 0; 3; 0];
+X = [0; 0; 4; 4; 8; 8; 12; 12];
+Y = [0; 4; 8; 4; 8; 4; 4; 0];
 
 % load vector
 my_load = 15; % arbitrary
@@ -37,7 +46,7 @@ L = zeros(2*size(C,1), 1);
 
 % Only one live load at joint 2
 % (numJoints + j_load) replace the joint where the load is at
-L(size(C,1)+2) = my_load;  % my_load oz at joint 2 !!!!!!!!!!!!!!!change as needed
+L(size(C,1)+4) = my_load;  % my_load oz at joint 2 !!!!!!!!!!!!!!!change as needed
 
 %% calculations
 
