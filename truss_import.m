@@ -32,13 +32,13 @@ X = [0; 1; 2; 3; 4];
 Y = [0; 1; 0; 30; 0];
 
 % load vector
-my_load = 15; %%%%%%%%%%%%%%%%%change
+my_load = 15; %%%%%%%%%%%%%%%%%change as needed
 % create an empty load vector ( size(C,1) is j)
 L = zeros(2*size(C,1), 1); 
 
-% Only one live load at joint 7
-% j+x --> x is the y joint: so joint 2 in y direction you put the load at L(7)
-L(7) = my_load;  % my_load oz at joint 2 !!!!!!!!!!!!!!!change joint 
+% Only one live load at joint 2
+% (numJoints + j_load) replace the joint where the load is at
+L(size(C,1)+2) = my_load;  % my_load oz at joint 2 !!!!!!!!!!!!!!!change as needed
 
 %% calculations
 
@@ -50,13 +50,15 @@ L(7) = my_load;  % my_load oz at joint 2 !!!!!!!!!!!!!!!change joint
 T = A \ L; 
 
 % check cost and member/joint reqs
-[totalCost, totalLength] = checkCostAndMembers(C, X, Y);
+[totalCost, totalLength, memberLengths] = checkCostAndMembers(C, X, Y);
 
 % Rm
 Rm = T / my_load;
 
-% find pcrit, wfailure, then critical member
+% make pcrit matrix
+[Pcrits] = pcritCalc(memberLengths);
 
+% make wfailure, then critical member
 
 
 %% printing 
@@ -80,6 +82,5 @@ fprintf('Sy2: %.2f\n', T(size(C,2)+3));
 
 fprintf('Cost of truss: $%0.2f\n', totalCost);
 fprintf('Theoretical max load/cost ratio in oz/$: %.4f\n', 1); %calculate
-
 
 

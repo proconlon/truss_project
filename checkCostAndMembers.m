@@ -1,6 +1,6 @@
-% function that checks cost, member/joints 
+% function that checks cost, member/joints, and returns the member lengths
 
-function [totalCost, totalLength] = checkCostAndMembers(C, X, Y)
+function [totalCost, totalLength, memberLengths] = checkCostAndMembers(C, X, Y)
     % length of each member in an array (zeros for now)
     memberLengths = zeros(size(C,2), 1);
 
