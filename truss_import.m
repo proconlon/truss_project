@@ -27,12 +27,11 @@ Sy = [0 1 0;
       0 0 1];
 
 % joint coords
-% 
 X = [0; 1; 2; 3; 4];
-Y = [0; 1; 0; 30; 0];
+Y = [0; 1; 0; 3; 0];
 
 % load vector
-my_load = 15; %%%%%%%%%%%%%%%%%change as needed
+my_load = 15; % arbitrary
 % create an empty load vector ( size(C,1) is j)
 L = zeros(2*size(C,1), 1); 
 
@@ -54,12 +53,13 @@ T = A \ L;
 
 % Rm
 Rm = T / my_load;
+Rm_membersOnly = Rm(1:size(C,2)); % no reaction forces in Rm
 
 % make pcrit matrix
 [Pcrits] = pcritCalc(memberLengths);
 
-% make wfailure, then critical member
-
+% critical member and max theoretical load
+[critical_member, W_failure_min] = buckme(Pcrits, Rm_membersOnly);
 
 %% printing 
 
@@ -81,6 +81,7 @@ fprintf('Sy2: %.2f\n', T(size(C,2)+3));
 
 
 fprintf('Cost of truss: $%0.2f\n', totalCost);
-fprintf('Theoretical max load/cost ratio in oz/$: %.4f\n', 1); %calculate
+load_to_cost = abs(W_failure_min) / totalCost;
+fprintf('Theoretical max load/cost ratio in oz/$: %.4f\n', load_to_cost);
 
 
