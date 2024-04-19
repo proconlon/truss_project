@@ -1,7 +1,7 @@
 %% truss matrix setup
 % requries ancillary functions in the functions folder to run
 
-load('Truss Design 1.mat'); % mat file with C, Sx, Sy, X, Y, L
+load('Truss Design 2.mat'); % mat file with C, Sx, Sy, X, Y, L
 fprintf('EK301, Section A2, Group 2: Kailan Pan, James Conlon, Austin Zhang, Spring 2024\n\n');
 
 %% calculations
