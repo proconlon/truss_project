@@ -29,13 +29,13 @@ function [critical_member, W_failure_min, W_failure_strong, W_failure_weak] = bu
     fprintf('strong force: %.2f oz, weak force: %.2f oz\n\n',  W_failure_strong, W_failure_weak);
 
     % potential critical members considering the strong and weak forces
-    fprintf('Other members near critical failure with +/-%.2f oz error: (if any)\n', error_margin);
+    fprintf('Other members near critical failure of strong/weak with +/-%.2f oz error: (if any)\n', error_margin);
     lower_bound = W_failure_min - error_margin;
     upper_bound = W_failure_min + error_margin;
     
     for i = 1:length(Wfailure_nom)
         if i ~= critical_member && Wfailure_nom(i) <= upper_bound && Wfailure_nom(i) >= lower_bound % exclude the critical member but include any other member within range
-            fprintf('m%d: failure load = %.2f oz, length = %.3f in (Nominal load)\n', i, Wfailure_nom(i), memberLens(i));
+            fprintf('m%d: failure load (nom) = %.2f oz, length = %.3f in\n', i, Wfailure_nom(i), memberLens(i));
         end
     end
 
